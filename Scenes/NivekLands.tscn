@@ -1,0 +1,2266 @@
+[gd_scene load_steps=49 format=2]
+
+[ext_resource path="res://Models/locations/NivekHome/terrain/ground.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/PlayerSpawn.gd" type="Script" id=2]
+[ext_resource path="res://Models/locations/Environment/Tree1/tree1.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Models/locations/Environment/Tree2/tree2.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Models/locations/General/hill2/HillBig.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Models/locations/General/hill1/hill1.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Models/locations/NivekHome/ShoreTower/ShoreTower.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Models/locations/NivekHome/FishingLodge/FishingLodge.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Models/locations/NivekHome/ShorePier/ShorePier.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Models/locations/NivekHome/RuinsBearingWall/BearingWall.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Models/locations/NivekHome/RuinsChest/Chest.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Models/locations/NivekHome/RuinsColumn/RuinsColumn.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Models/locations/NivekHome/RuinsEntrance/RuinsEntrance.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Models/locations/NivekHome/RuinsExtensions/RuinsExtensions.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Models/locations/NivekHome/RuinsThrone/Throne.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Models/locations/NivekHome/RuinsTrail/RuinsTrail.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Models/locations/Environment/DeadTree/DeadTree.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Objects/NivekHome/DTbarrier/DeadTreeBarrier.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Models/locations/NivekHome/House1/VillageHouse1.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Models/locations/NivekHome/Borehole/Borehole.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Models/locations/NivekHome/Barn1/Barn1.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Models/locations/General/Fence1/Fence.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Models/locations/NivekHome/GardenShrub/GardenShrub.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Models/locations/Environment/Shrub/shrub.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Models/locations/NivekHome/NivekBridge/NivekBridge.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Models/locations/NivekHome/NivekHome/NivekHome.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Models/locations/NivekHome/NivekBed/NivekBed.tscn" type="PackedScene" id=27]
+[ext_resource path="res://Models/locations/NivekHome/NivekTable/NivekTable.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Models/locations/Environment/Stone1/TheStone.tscn" type="PackedScene" id=29]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Spatial
+
+
+func _ready():
+	G.SetMode(0)
+	G.AddSpawn($\"ground/System/PlayerSpawn\")
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Spatial
+
+
+func _ready():
+	for o in get_children():
+		o.rotation_degrees.y += G.rd.randi_range(-10, 10)
+	
+
+
+"
+
+[sub_resource type="GDScript" id=13]
+script/source = "extends Area
+
+func _on_NivekHomeArea_body_entered(body):
+	if body == G.player:
+		G.MovingDir = deg2rad(90)
+		G.SetMode(1)
+	
+
+func _on_NivekHomeArea_body_exited(body):
+	if body == G.player:
+		G.SetMode(0)
+	
+"
+
+[sub_resource type="BoxShape" id=14]
+extents = Vector3( 15, 6, 15 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Area
+
+export (float) var new_optimization_step = 1
+
+"
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 23, 16, 22 )
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 23, 13, 47 )
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 2, 13, 22 )
+
+[sub_resource type="BoxShape" id=7]
+extents = Vector3( 24, 13, 4 )
+
+[sub_resource type="BoxShape" id=8]
+extents = Vector3( 24, 13, 3 )
+
+[sub_resource type="BoxShape" id=9]
+extents = Vector3( 153, 39, 3 )
+
+[sub_resource type="BoxShape" id=10]
+extents = Vector3( 1, 10, 28 )
+
+[sub_resource type="BoxShape" id=11]
+extents = Vector3( 24, 8, 31 )
+
+[sub_resource type="BoxShape" id=12]
+extents = Vector3( 5, 9, 5 )
+
+[sub_resource type="BoxShape" id=15]
+extents = Vector3( 12, 15, 13 )
+
+[sub_resource type="BoxShape" id=16]
+extents = Vector3( 17, 15, 6 )
+
+[sub_resource type="BoxShape" id=17]
+extents = Vector3( 7, 15, 7 )
+
+[sub_resource type="BoxShape" id=18]
+extents = Vector3( 6, 15, 6 )
+
+[sub_resource type="BoxShape" id=19]
+extents = Vector3( 15, 15, 6 )
+
+[node name="NivekLands" type="Spatial"]
+script = SubResource( 1 )
+
+[node name="ground" parent="." instance=ExtResource( 1 )]
+
+[node name="DirectionalLight" type="DirectionalLight" parent="ground"]
+transform = Transform( 0.582563, 0.766045, -0.271654, 0.422618, 8.22868e-08, 0.906308, 0.694272, -0.642787, -0.323744, -40, 75, -50 )
+directional_shadow_mode = 0
+
+[node name="Level" type="Spatial" parent="ground"]
+
+[node name="Trees" type="Spatial" parent="ground/Level"]
+
+[node name="treeOne" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.541635, 0, -0.840614, 0, 1, 0, 0.840614, 0, 0.541635, -84.3776, 0, -46.7065 )
+
+[node name="treeOne2" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( -0.917331, 0, 0.398125, 0, 1, 0, -0.398125, 0, -0.917331, -89.8124, 0, -27.8324 )
+
+[node name="treeOne3" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( -0.276376, 0, 0.96105, 0, 1, 0, -0.96105, 0, -0.276376, -85.119, 0, 0.00778961 )
+
+[node name="treeOne4" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( -0.923505, 0, -0.383586, 0, 1, 0, 0.383586, 0, -0.923505, -94.9506, 0, -17.625 )
+
+[node name="treeOne5" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -89.8397, 0, 17.8929 )
+
+[node name="treeOne11" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -67.8397, 7, 50.8929 )
+
+[node name="treeOne12" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -55.8397, 7, 66.8929 )
+
+[node name="treeOne13" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -62.8397, 7, 85.8929 )
+
+[node name="treeOne14" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -48.8397, 7, 97.8929 )
+
+[node name="treeOne37" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -23.8397, 1, 96.8929 )
+
+[node name="treeOne38" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 0.160301, 1, 92.8929 )
+
+[node name="treeOne39" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 39.1603, 1, 92.8929 )
+
+[node name="treeOne40" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 42.1603, 1, 146.893 )
+
+[node name="treeOne57" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 61.1603, 1, 141.893 )
+
+[node name="treeOne42" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -10.8397, 1, 147.893 )
+
+[node name="treeOne43" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -27.8397, 1, 145.893 )
+
+[node name="treeOne44" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -41.8397, 1, 137.893 )
+
+[node name="treeOne45" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -32.8397, 1, 86.8929 )
+
+[node name="treeOne46" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 31.1603, 1, 74.8929 )
+
+[node name="treeOne90" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 33.1603, 1, 50.8929 )
+
+[node name="treeOne56" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 22.1603, 1, 84.8929 )
+
+[node name="treeOne47" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 57.1603, 1, 92.8929 )
+
+[node name="treeOne48" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 67.1603, 1, 107.893 )
+
+[node name="treeOne49" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 87.1603, 1, 117.893 )
+
+[node name="treeOne50" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 109.16, 1, 110.893 )
+
+[node name="treeOne51" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 109.16, 1, 110.893 )
+
+[node name="treeOne52" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 105.16, 1, 129.893 )
+
+[node name="treeOne53" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 69.1603, 1, 125.893 )
+
+[node name="treeOne54" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 89.1603, 1, 138.893 )
+
+[node name="treeOne55" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 125.16, 1, 119.893 )
+
+[node name="treeOne58" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 127.16, 1, 98.8929 )
+
+[node name="treeOne59" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 145.16, 1, 137.893 )
+
+[node name="treeOne60" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 145.16, 1, 110.893 )
+
+[node name="treeOne61" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 139.16, 1, 80.8929 )
+
+[node name="treeOne62" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 126.16, 1, 63.8929 )
+
+[node name="treeOne63" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 147.16, 1, 62.8929 )
+
+[node name="treeOne64" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 132.16, 1, 41.8929 )
+
+[node name="treeOne91" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 118.16, 1, 48.8929 )
+
+[node name="treeOne65" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 146.16, 1, 42.8929 )
+
+[node name="treeOne66" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 110.16, 1, 29.8929 )
+
+[node name="treeOne89" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 100.16, 1, 21.8929 )
+
+[node name="treeOne72" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 137.16, 1, 9.8929 )
+
+[node name="treeOne87" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( -0.615469, 0, 0.788161, 0, 1, 0, -0.788161, 0, -0.615469, 110.16, 1, -2.1071 )
+
+[node name="treeOne73" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 130.16, 1, -12.1071 )
+
+[node name="treeOne74" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 111.16, 1, -15.1071 )
+
+[node name="treeOne75" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 120.16, 1, -33.1071 )
+
+[node name="treeOne76" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 104.16, 1, -44.1071 )
+
+[node name="treeOne77" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 126.16, 1, -60.1071 )
+
+[node name="treeOne78" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 133.16, 1, -35.1071 )
+
+[node name="treeOne79" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 114.16, 1, -60.1071 )
+
+[node name="treeOne80" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 90.1603, 1, -46.1071 )
+
+[node name="treeOne81" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 74.1603, 1, -61.1071 )
+
+[node name="treeOne88" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 72.1603, 1, -44.1071 )
+
+[node name="treeOne82" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 55.1603, 1, -56.1071 )
+
+[node name="treeOne83" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 35.1603, 1, -69.1071 )
+
+[node name="treeOne84" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 31.1603, 1, -44.1071 )
+
+[node name="treeOne94" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 44.1603, 1, -56.1071 )
+
+[node name="treeOne85" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 45.1603, 1, -29.1071 )
+
+[node name="treeOne86" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 62.1603, 1, -30.1071 )
+
+[node name="treeOne68" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 97.1603, 1, 36.8929 )
+
+[node name="treeOne69" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 76.1603, 1, 43.8929 )
+
+[node name="treeOne70" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 58.1603, 1, 54.8929 )
+
+[node name="treeOne71" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 63.1603, 1, 33.8929 )
+
+[node name="treeOne92" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 39.1603, 1, 29.8929 )
+
+[node name="treeOne93" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 13.1603, 1, 28.8929 )
+
+[node name="treeOne67" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 140.16, 1, 27.8929 )
+
+[node name="treeOne41" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 14.1603, 1, 143.893 )
+
+[node name="treeOne15" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -48.8397, 7, 97.8929 )
+
+[node name="treeOne18" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -25.8397, 7, 71.8929 )
+
+[node name="treeOne19" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -21.8397, 7, 54.8929 )
+
+[node name="treeOne20" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -9.83968, 7, 65.8929 )
+
+[node name="treeOne21" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 1.16032, 7, 53.8929 )
+
+[node name="treeOne24" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 2.16032, 7, 19.8929 )
+
+[node name="treeOne95" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -35.8397, 0.337905, 26.8929 )
+
+[node name="treeOne96" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -60.8397, 0.337905, 25.8929 )
+
+[node name="treeOne97" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -37.8397, 0.337905, -0.1071 )
+
+[node name="treeOne98" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -64.8397, 0.337905, 3.8929 )
+
+[node name="treeOne99" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -42.8397, 0.337905, -25.1071 )
+
+[node name="treeOne109" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -42.8397, 0.337905, -25.1071 )
+
+[node name="treeOne110" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -61.8397, 0.337905, -60.1071 )
+
+[node name="treeOne100" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -67.8397, 0.337905, -34.1071 )
+
+[node name="treeOne101" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -18.8397, 0.337905, -21.1071 )
+
+[node name="treeOne108" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -31.8397, 0.337905, -18.1071 )
+
+[node name="treeOne102" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -67.8397, 0.337905, -14.1071 )
+
+[node name="treeOne103" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -48.8397, 0.337905, -4.1071 )
+
+[node name="treeOne104" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -56.8397, 0.337905, 11.8929 )
+
+[node name="treeOne105" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -46.8397, 0.337905, 20.8929 )
+
+[node name="treeOne106" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -61.8397, 0.337905, -24.1071 )
+
+[node name="treeOne107" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -31.8397, 0.337905, -39.1071 )
+
+[node name="treeOne111" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -25.8397, 0.337905, -59.1071 )
+
+[node name="treeOne25" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 14.1603, 7, 6.89288 )
+
+[node name="treeOne26" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 18.1603, 7, -7.10712 )
+
+[node name="treeOne27" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 34.1603, 7, 6.89288 )
+
+[node name="treeOne28" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 23.1603, 7, 16.8929 )
+
+[node name="treeOne29" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 38.1603, 7, -13.1071 )
+
+[node name="treeOne30" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 3.16032, 7, -17.1071 )
+
+[node name="treeOne31" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -17.8397, 9, -63.1071 )
+
+[node name="treeOne32" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 9.16032, 9, -63.1071 )
+
+[node name="treeOne22" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 10.1603, 7, 68.8929 )
+
+[node name="treeOne23" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, 18.1603, 7, 55.8929 )
+
+[node name="treeOne16" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -48.8397, 7, 80.8929 )
+
+[node name="treeOne17" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.390506, 0, -0.9206, 0, 1, 0, 0.9206, 0, 0.390506, -44.8397, 7, 53.8929 )
+
+[node name="treeOne6" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.891133, 0, -0.453742, 0, 1, 0, 0.453742, 0, 0.891133, -87.8334, 0, 36.0661 )
+
+[node name="treeOne10" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( -0.84201, 0, -0.539462, 0, 1, 0, 0.539462, 0, -0.84201, -87.9791, 0, 52.1398 )
+
+[node name="treeOne7" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( -0.10255, 0, 0.994728, 0, 1, 0, -0.994728, 0, -0.10255, -99.3328, 0, 59.6698 )
+
+[node name="treeOne8" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( -0.785738, 0, -0.618559, 0, 1, 0, 0.618559, 0, -0.785738, -88.3715, 0, 69.7107 )
+
+[node name="treeOne9" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -89.3234, 0, 96.7263 )
+
+[node name="treeOne112" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -75.3234, 0, 121.726 )
+
+[node name="treeOne113" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -95.3234, 0, 116.726 )
+
+[node name="treeOne114" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -94.3234, 0, 130.726 )
+
+[node name="treeOne115" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -82.3234, 0, 143.726 )
+
+[node name="treeOne116" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -65.3234, 0, 142.726 )
+
+[node name="treeOne117" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -60.3234, 0, 131.726 )
+
+[node name="treeOne33" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -112.323, 6.34756, 96.7263 )
+
+[node name="treeOne36" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -107.323, 6.34756, 69.7263 )
+
+[node name="treeOne34" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -139.323, 6.34756, 100.726 )
+
+[node name="treeOne35" parent="ground/Level/Trees" instance=ExtResource( 3 )]
+transform = Transform( 0.995645, 0, 0.0932222, 0, 1, 0, -0.0932222, 0, 0.995645, -109.323, 6.34756, 141.726 )
+
+[node name="treeTwo" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -85.8029, 0, -36.9521 )
+hide_distance = 70.0
+
+[node name="treeTwo2" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -85.7096, 0.61492, -18.9346 )
+hide_distance = 70.0
+
+[node name="treeTwo13" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -85.015, 1.90735e-06, -9.75209 )
+hide_distance = 70.0
+
+[node name="treeTwo3" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -93.3175, 1.90735e-06, -4.58928 )
+hide_distance = 70.0
+
+[node name="treeTwo4" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -84.3653, 1.90735e-06, 9.0167 )
+hide_distance = 70.0
+
+[node name="treeTwo5" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -94.3586, 1.90735e-06, 3.40291 )
+hide_distance = 70.0
+
+[node name="treeTwo6" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -85.2584, 1.90735e-06, 26.9407 )
+hide_distance = 70.0
+
+[node name="treeTwo7" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -85.4922, 1.90735e-06, 44.7107 )
+hide_distance = 70.0
+
+[node name="treeTwo8" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -88.5065, 1.90735e-06, 59.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo14" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -65.5065, 7.08559, 73.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo15" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -65.5065, 7.08559, 60.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo16" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -56.5065, 7.08559, 53.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo17" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -46.5065, 7.08559, 64.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo22" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -11.5065, 7.08559, 51.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo23" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -21.5065, 7.08559, 61.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo24" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -2.50648, 7.08559, 71.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo25" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -16.5065, 7.08559, 72.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo26" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 2.49352, 7.08559, 61.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo27" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 9.49352, 7.08559, 54.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo29" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 40.4935, 7.08559, 18.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo30" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 30.4935, 7.08559, 16.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo31" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 41.4935, 7.08559, 5.66812 )
+hide_distance = 70.0
+
+[node name="treeTwo32" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 38.4935, 7.08559, -4.33188 )
+hide_distance = 70.0
+
+[node name="treeTwo33" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 22.4935, 7.08559, 4.66812 )
+hide_distance = 70.0
+
+[node name="treeTwo40" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -16.5065, 9.08558, -39.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo135" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -17.5065, 0.271701, -5.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo139" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -40.5065, 0.271701, -11.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo140" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -48.5065, 0.271701, -17.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo141" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -31.5065, 0.271701, -29.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo142" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -40.5065, 0.271701, -36.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo143" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -47.5065, 0.271701, -45.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo144" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -38.5065, 0.271701, -46.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo145" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -49.5065, 0.271701, -31.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo146" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -69.5065, 0.271701, -24.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo147" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -61.5065, 0.271701, -6.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo148" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -70.5065, 0.271701, -5.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo149" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -71.5065, 0.271701, 4.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo150" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -64.5065, 0.271701, 12.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo151" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -70.5065, 0.271701, 19.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo152" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -67.5065, 0.271701, 28.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo153" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -52.5065, 0.271701, 29.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo154" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -42.5065, 0.271701, 28.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo155" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -37.5065, 0.271701, 15.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo156" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -53.5065, 0.271701, 20.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo157" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -44.5065, 0.271701, 4.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo158" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -62.5065, 0.271701, -43.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo159" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -71.5065, 0.271701, -44.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo160" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -53.5065, 0.271701, -61.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo161" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -42.5065, 0.271701, -60.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo136" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -17.5065, 0.271701, 6.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo137" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -17.5065, 0.271701, 18.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo138" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -17.5065, 0.271701, 29.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo41" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -3.50648, 9.08558, -41.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo42" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -5.50648, 9.08558, -65.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo34" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 27.4935, 7.08559, -5.33188 )
+hide_distance = 70.0
+
+[node name="treeTwo35" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 29.4935, 7.08559, -15.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo36" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 6.49352, 7.08559, -5.33188 )
+hide_distance = 70.0
+
+[node name="treeTwo37" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 2.49352, 7.08559, 5.66812 )
+hide_distance = 70.0
+
+[node name="treeTwo38" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 12.4935, 7.08559, 17.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo39" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 14.4935, 7.08559, -16.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo28" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 20.4935, 7.08559, 68.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo18" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -58.5065, 7.08559, 96.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo19" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -57.5065, 7.08559, 76.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo20" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -45.5065, 7.08559, 88.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo48" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -35.5065, 1.08559, 97.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo49" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -18.5065, 1.08559, 84.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo50" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -10.5065, 1.08559, 90.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo51" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 11.4935, 1.08559, 82.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo59" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -8.5065, 1.08559, 81.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo60" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 1.4935, 1.08559, 81.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo52" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 16.4935, 1.08559, 90.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo53" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 31.4935, 1.08559, 85.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo120" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 38.4935, 1.08559, 60.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo121" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 43.4935, 1.08559, 71.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo122" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 42.4935, 1.08559, 50.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo123" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 67.4935, 1.08559, 50.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo124" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 63.4935, 1.08559, 41.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo127" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 51.4935, 1.08559, 18.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo128" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 48.4935, 1.08559, 27.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo129" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 29.4935, 1.08559, 29.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo130" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 21.4935, 1.08559, 29.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo131" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -3.5065, 1.08559, 27.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo132" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 4.4935, 1.08559, 29.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo125" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 88.4935, 1.08559, 37.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo126" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 110.493, 1.08559, 43.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo54" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 40.4935, 1.08559, 80.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo55" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 46.4935, 1.08559, 88.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo56" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 51.4935, 1.08559, 81.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo133" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 61.4935, 1.08559, 83.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo134" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 62.4935, 1.08559, 97.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo57" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 56.4935, 1.08559, 106.668 )
+hide_distance = 70.0
+
+[node name="treeTwo61" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 76.4935, 1.08559, 113.668 )
+hide_distance = 70.0
+
+[node name="treeTwo62" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 80.4935, 1.08559, 127.668 )
+hide_distance = 70.0
+
+[node name="treeTwo63" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 97.4935, 1.08559, 120.668 )
+hide_distance = 70.0
+
+[node name="treeTwo64" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 101.493, 1.08559, 139.668 )
+hide_distance = 70.0
+
+[node name="treeTwo65" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 71.4935, 1.08559, 135.668 )
+hide_distance = 70.0
+
+[node name="treeTwo76" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 79.4935, 1.08559, 142.668 )
+hide_distance = 70.0
+
+[node name="treeTwo77" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 115.493, 1.08559, 137.668 )
+hide_distance = 70.0
+
+[node name="treeTwo78" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 126.493, 1.08559, 144.668 )
+hide_distance = 70.0
+
+[node name="treeTwo79" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 115.493, 1.08559, 122.668 )
+hide_distance = 70.0
+
+[node name="treeTwo81" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 138.493, 1.08559, 123.668 )
+hide_distance = 70.0
+
+[node name="treeTwo82" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 135.493, 1.08559, 138.668 )
+hide_distance = 70.0
+
+[node name="treeTwo83" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 134.493, 1.08559, 108.668 )
+hide_distance = 70.0
+
+[node name="treeTwo84" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 121.493, 1.08559, 108.668 )
+hide_distance = 70.0
+
+[node name="treeTwo85" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 142.493, 1.08559, 94.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo86" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 127.493, 1.08559, 84.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo87" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 136.493, 1.08559, 65.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo88" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 130.493, 1.08559, 73.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo89" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 137.493, 1.08559, 52.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo90" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 118.493, 1.08559, 42.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo117" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 125.493, 1.08559, 50.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo118" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 106.493, 1.08559, 37.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo119" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 120.493, 1.08559, 32.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo91" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 128.493, 1.08559, 28.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo92" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 128.493, 1.08559, -49.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo93" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 118.493, 1.08559, -48.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo94" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 110.493, 1.08559, -37.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo96" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 120.493, 1.08559, -16.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo97" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 127.493, 1.08559, -27.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo98" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 118.493, 1.08559, 1.66809 )
+hide_distance = 70.0
+
+[node name="treeTwo99" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 141.493, 1.08559, -3.33191 )
+hide_distance = 70.0
+
+[node name="treeTwo100" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 128.493, 1.08559, -2.33191 )
+hide_distance = 70.0
+
+[node name="treeTwo101" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 126.493, 1.08559, 15.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo102" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 144.493, 1.08559, 16.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo103" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 119.493, 1.08559, 24.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo104" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 103.493, 1.08559, -62.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo105" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 92.4935, 1.08559, -59.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo106" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 97.4935, 1.08559, -33.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo107" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 80.4935, 1.08559, -34.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo108" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 80.4935, 1.08559, -52.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo109" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 63.4935, 1.08559, -56.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo110" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 44.4935, 1.08559, -66.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo111" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 31.4935, 1.08559, -59.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo112" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 39.4935, 1.08559, -41.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo113" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 32.4935, 1.08559, -29.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo114" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 54.4935, 1.08559, -41.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo115" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 52.4935, 1.08559, -21.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo116" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 54.4935, 1.08559, -32.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo95" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 114.493, 1.08559, -26.3319 )
+hide_distance = 70.0
+
+[node name="treeTwo80" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 126.493, 1.08559, 130.668 )
+hide_distance = 70.0
+
+[node name="treeTwo66" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 93.4935, 1.08559, 128.668 )
+hide_distance = 70.0
+
+[node name="treeTwo67" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 60.4935, 1.08559, 130.668 )
+hide_distance = 70.0
+
+[node name="treeTwo68" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 61.4935, 1.08559, 116.668 )
+hide_distance = 70.0
+
+[node name="treeTwo69" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -37.5065, 1.08559, 146.668 )
+hide_distance = 70.0
+
+[node name="treeTwo70" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -19.5065, 1.08559, 146.668 )
+hide_distance = 70.0
+
+[node name="treeTwo71" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 5.4935, 1.08559, 147.668 )
+hide_distance = 70.0
+
+[node name="treeTwo72" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 23.4935, 1.08559, 147.668 )
+hide_distance = 70.0
+
+[node name="treeTwo73" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 33.4935, 1.08559, 145.668 )
+hide_distance = 70.0
+
+[node name="treeTwo74" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 53.4935, 1.08559, 139.668 )
+hide_distance = 70.0
+
+[node name="treeTwo75" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 61.4935, 1.08559, 122.668 )
+hide_distance = 70.0
+
+[node name="treeTwo58" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, 49.4935, 1.08559, 99.6681 )
+hide_distance = 70.0
+
+[node name="treeTwo21" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -64.5065, 7.08559, 103.668 )
+hide_distance = 70.0
+
+[node name="treeTwo9" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -97.8157, 1.90735e-06, 70.4404 )
+hide_distance = 70.0
+
+[node name="treeTwo10" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -86.8693, 1.90735e-06, 79.0042 )
+hide_distance = 70.0
+
+[node name="treeTwo43" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -108.869, 8, 88.0042 )
+hide_distance = 70.0
+
+[node name="treeTwo46" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -108.869, 6.45701, 132.004 )
+hide_distance = 70.0
+
+[node name="treeTwo47" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -108.869, 6.45701, 121.004 )
+hide_distance = 70.0
+
+[node name="treeTwo44" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -118.869, 6.45701, 84.0042 )
+hide_distance = 70.0
+
+[node name="treeTwo45" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -127.869, 6.45701, 97.0042 )
+hide_distance = 70.0
+
+[node name="treeTwo11" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -93.1969, 1.90735e-06, 87.2996 )
+hide_distance = 70.0
+
+[node name="treeTwo162" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -95.1969, 1.90735e-06, 140.3 )
+hide_distance = 70.0
+
+[node name="treeTwo163" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -74.1969, 1.90735e-06, 134.3 )
+hide_distance = 70.0
+
+[node name="treeTwo169" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -85.1969, 1.90735e-06, 133.3 )
+hide_distance = 70.0
+
+[node name="treeTwo164" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -53.1969, 1.90735e-06, 142.3 )
+hide_distance = 70.0
+
+[node name="treeTwo165" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -51.1969, 1.90735e-06, 128.3 )
+hide_distance = 70.0
+
+[node name="treeTwo166" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -53.1969, 1.90735e-06, 113.3 )
+hide_distance = 70.0
+
+[node name="treeTwo167" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -76.1969, 1.90735e-06, 110.3 )
+hide_distance = 70.0
+
+[node name="treeTwo168" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -87.1969, 1.90735e-06, 123.3 )
+hide_distance = 70.0
+
+[node name="treeTwo12" parent="ground/Level/Trees" instance=ExtResource( 4 )]
+transform = Transform( 0.76104, 0, 0.648705, 0, 1, 0, -0.648705, 0, 0.76104, -99.1515, 1.90735e-06, 80.054 )
+hide_distance = 70.0
+
+[node name="DeadTree" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 13, 0.379043, 101 )
+
+[node name="DeadTree2" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 29, 0.379043, 108 )
+
+[node name="DeadTree3" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 39, 0.379043, 104 )
+
+[node name="DeadTree4" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 43, 0.379043, 128 )
+
+[node name="DeadTree5" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 41, 0.379043, 113 )
+
+[node name="DeadTree7" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 20, 0.379043, 141 )
+
+[node name="DeadTree8" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 8, 0.379043, 142 )
+
+[node name="DeadTree25" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -6, 0.379043, 145 )
+
+[node name="DeadTree26" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -20, 0.379043, 142 )
+
+[node name="DeadTree9" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0.379043, 135 )
+
+[node name="DeadTree10" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -9, 0.379043, 139 )
+
+[node name="DeadTree11" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -20, 0.379043, 134 )
+
+[node name="DeadTree12" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -40, 0.379043, 129 )
+
+[node name="DeadTree13" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -33, 0.379043, 136 )
+
+[node name="DeadTree14" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -26, 0.379043, 109 )
+
+[node name="DeadTree15" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -40, 0.379043, 112 )
+
+[node name="DeadTree16" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -31, 0.379043, 103 )
+
+[node name="DeadTree17" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -16, 0.379043, 102 )
+
+[node name="DeadTree18" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -6, 0.379043, 110 )
+
+[node name="DeadTree19" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -7, 0.379043, 100 )
+
+[node name="DeadTree42" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -121, 6.37904, 138 )
+
+[node name="DeadTree44" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -119, 6.37904, 129 )
+
+[node name="DeadTree46" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -115, 6.37904, 120 )
+
+[node name="DeadTree48" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -111, 6.37904, 147 )
+
+[node name="DeadTree50" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -129, 6.37904, 147 )
+
+[node name="DeadTree51" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -146, 6.37904, 147 )
+
+[node name="DeadTree53" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -147, 6.37904, 132 )
+
+[node name="DeadTree55" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -147, 6.37904, 118 )
+
+[node name="DeadTree57" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -139, 6.37904, 142 )
+
+[node name="DeadTree58" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -139, 6.37904, 112 )
+
+[node name="DeadTree59" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -145, 6.37904, 106 )
+
+[node name="DeadTree62" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -121, 6.37904, 105 )
+
+[node name="DeadTree63" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -133, 6.37904, 100 )
+
+[node name="DeadTree20" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 8, 0.379043, 94 )
+
+[node name="DeadTree21" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 21, 0.379043, 97 )
+
+[node name="DeadTree22" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 28, 0.379043, 94 )
+
+[node name="DeadTree23" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 45, 0.379043, 100 )
+
+[node name="DeadTree24" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 50, 0.379043, 111 )
+
+[node name="DeadTree27" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -63, 0.379043, 137 )
+
+[node name="DeadTree28" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -49, 0.379043, 136 )
+
+[node name="DeadTree29" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -55, 0.379043, 44 )
+
+[node name="DeadTree30" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -92, 0.379043, 43 )
+
+[node name="DeadTree31" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -72, 0.379043, 12 )
+
+[node name="DeadTree32" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -61, 0.379043, -15 )
+
+[node name="DeadTree33" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -98, 0.379043, -12 )
+
+[node name="DeadTree34" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -50, 0.379043, -39 )
+
+[node name="DeadTree35" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -28, 0.379043, -50 )
+
+[node name="DeadTree36" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 30, 0.379043, 61 )
+
+[node name="DeadTree37" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 93, 0.379043, 27 )
+
+[node name="DeadTree38" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 129, 0.379043, 6 )
+
+[node name="DeadTree39" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 121, 0.379043, -23 )
+
+[node name="DeadTree40" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 99, 0.379043, -56 )
+
+[node name="DeadTree41" parent="ground/Level/Trees" instance=ExtResource( 17 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 59, 0.379043, -22 )
+
+[node name="Hills" type="Spatial" parent="ground/Level"]
+
+[node name="hill1" parent="ground/Level/Hills" instance=ExtResource( 6 )]
+transform = Transform( -1.31134e-07, 0, -1, 0, 1, 0, 3, 0, -4.37114e-08, 141, 0, -34 )
+
+[node name="HillBig" parent="ground/Level/Hills" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2, -55.1533, 0, 77.6852 )
+hide_distance = 100.0
+
+[node name="HillBig3" parent="ground/Level/Hills" instance=ExtResource( 5 )]
+transform = Transform( 1.5, 0, 0, 0, 1, 0, 0, 0, 1.5, 21.8467, 0, 1.68522 )
+hide_distance = 100.0
+
+[node name="HillBig2" parent="ground/Level/Hills" instance=ExtResource( 5 )]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 1, -5.15325, 0, 61.6852 )
+hide_distance = 100.0
+
+[node name="LakeBuildings" type="Spatial" parent="ground/Level"]
+
+[node name="ShoreTower" parent="ground/Level/LakeBuildings" instance=ExtResource( 7 )]
+transform = Transform( 0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 58, 0, 75 )
+
+[node name="ShorePier" parent="ground/Level/LakeBuildings" instance=ExtResource( 9 )]
+transform = Transform( 0.32941, 0, 0.944187, 0, 1, 0, -0.944187, 0, 0.32941, 67.7211, -0.351969, 69.1587 )
+
+[node name="FishingLodge" parent="ground/Level/LakeBuildings" instance=ExtResource( 8 )]
+transform = Transform( 1.08253, 0, 0.625, 0, 1.25, 0, -0.625, 0, 1.08253, 63, 0, 62 )
+
+[node name="FishingLodge2" parent="ground/Level/LakeBuildings" instance=ExtResource( 8 )]
+transform = Transform( -0.141504, 0, 1.24196, 0, 1.25, 0, -1.24196, 0, -0.141504, 51.2332, -4.76837e-07, 68.1553 )
+
+[node name="RuinsTemple" type="Spatial" parent="ground/Level"]
+
+[node name="BearingWall" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( 0.993069, 0.0776655, 0.0882121, -0.0904474, 0.0257415, 0.995568, 0.0750506, -0.996647, 0.0325877, 16.9983, 0.955792, 136 )
+
+[node name="BearingWall3" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 6.00001, 0, 136 )
+
+[node name="BearingWall4" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -4.99999, 0, 136 )
+
+[node name="BearingWall5" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( 0.97171, 0.0772423, -0.223188, -0.236177, 0.317801, -0.918272, 0, 0.945006, 0.327053, -25.6291, 0.365857, 133 )
+
+[node name="BearingWall6" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -34, 0, 131 )
+
+[node name="BearingWall7" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -12, 0, 106 )
+
+[node name="BearingWall8" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -2.99999, 0, 106 )
+
+[node name="BearingWall9" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 7.00001, 0, 106 )
+
+[node name="BearingWall10" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 17, 0, 106 )
+
+[node name="BearingWall11" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( -0.963845, 0.00322401, -0.266443, 0.260576, 0.220411, -0.939957, 0.0556966, -0.975402, -0.213283, -33, 0.517271, 111 )
+
+[node name="BearingWall2" parent="ground/Level/RuinsTemple" instance=ExtResource( 10 )]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 27.8251, 0, 136 )
+
+[node name="Chest" parent="ground/Level/RuinsTemple" instance=ExtResource( 11 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 47, 0.349757, 136 )
+
+[node name="RuinsColumn" parent="ground/Level/RuinsTemple" instance=ExtResource( 12 )]
+transform = Transform( 0.878402, 0.471196, -0.0799045, -0.0573206, 0.269854, 0.961194, 0.474473, -0.839734, 0.26405, 12.0017, 1.32192, 141 )
+
+[node name="RuinsColumn4" parent="ground/Level/RuinsTemple" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3339, 0, 140 )
+
+[node name="RuinsColumn5" parent="ground/Level/RuinsTemple" instance=ExtResource( 12 )]
+transform = Transform( 0.284217, -0.518245, 0.806625, 0.855986, 0.516129, 0.0299962, -0.431868, 0.681934, 0.590302, 47, 1.54466, 126 )
+
+[node name="RuinsColumn7" parent="ground/Level/RuinsTemple" instance=ExtResource( 12 )]
+transform = Transform( 0.958343, -0.256441, 0.125763, 0.0983375, 0.709644, 0.697664, -0.268157, -0.656234, 0.7053, 47, 0, 115 )
+
+[node name="RuinsColumn6" parent="ground/Level/RuinsTemple" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -29, 0, 138 )
+
+[node name="RuinsColumn10" parent="ground/Level/RuinsTemple" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -66, 0, 124 )
+
+[node name="RuinsColumn11" parent="ground/Level/RuinsTemple" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -66, 0, 116 )
+
+[node name="RuinsColumn8" parent="ground/Level/RuinsTemple" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0, 106 )
+
+[node name="RuinsColumn9" parent="ground/Level/RuinsTemple" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 100 )
+
+[node name="RuinsColumn2" parent="ground/Level/RuinsTemple" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 144 )
+
+[node name="RuinsEntrance" parent="ground/Level/RuinsTemple" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 0, 120 )
+
+[node name="RuinsExtensions" parent="ground/Level/RuinsTemple" instance=ExtResource( 14 )]
+transform = Transform( -0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, 27, 0.355289, 102 )
+
+[node name="RuinsExtensions5" parent="ground/Level/RuinsTemple" instance=ExtResource( 14 )]
+transform = Transform( 8.9407e-08, 0, -1, 0, 1, 0, 1, 0, 8.9407e-08, -21, 0.355289, 106 )
+
+[node name="RuinsExtensions6" parent="ground/Level/RuinsTemple" instance=ExtResource( 14 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 43, 0.355289, 133 )
+
+[node name="RuinsExtensions7" parent="ground/Level/RuinsTemple" instance=ExtResource( 14 )]
+transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -14, 0.355289, 135 )
+
+[node name="RuinsExtensions3" parent="ground/Level/RuinsTemple" instance=ExtResource( 14 )]
+transform = Transform( 0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 44, 0.355289, 107 )
+
+[node name="RuinsExtensions4" parent="ground/Level/RuinsTemple" instance=ExtResource( 14 )]
+transform = Transform( -0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 38, 0.355289, 98 )
+
+[node name="Throne" parent="ground/Level/RuinsTemple" instance=ExtResource( 15 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 52, 0, 120 )
+
+[node name="RuinsTrail" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.405857, 120 )
+
+[node name="RuinsTrail2" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.405857, 120 )
+
+[node name="RuinsTrail3" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.405857, 120 )
+
+[node name="RuinsTrail4" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10, 0.405857, 120 )
+
+[node name="RuinsTrail5" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.405857, 120 )
+
+[node name="RuinsTrail6" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.405857, 120 )
+
+[node name="RuinsTrail7" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -20, 0.405857, 120 )
+
+[node name="RuinsTrail10" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 30, 0.405857, 115 )
+
+[node name="RuinsTrail11" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.405857, 115 )
+
+[node name="RuinsTrail12" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10, 0.405857, 115 )
+
+[node name="RuinsTrail13" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.405857, 115 )
+
+[node name="RuinsTrail14" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -10, 0.405857, 115 )
+
+[node name="RuinsTrail15" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -20, 0.405857, 115 )
+
+[node name="RuinsTrail16" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.405857, 125 )
+
+[node name="RuinsTrail17" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 20, 0.405857, 125 )
+
+[node name="RuinsTrail18" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.405857, 125 )
+
+[node name="RuinsTrail19" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.405857, 125 )
+
+[node name="RuinsTrail20" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.405857, 125 )
+
+[node name="RuinsTrail24" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.405857, 130 )
+
+[node name="RuinsTrail25" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10, 0.405857, 130 )
+
+[node name="RuinsTrail26" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.405857, 130 )
+
+[node name="RuinsTrail27" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -10, 0.405857, 130 )
+
+[node name="RuinsTrail21" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.405857, 125 )
+
+[node name="RuinsTrail8" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -30, 0.405857, 120 )
+
+[node name="RuinsTrail22" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 0.8694, 0, -0.494109, 0, 1, 0, 0.494109, 0, 0.8694, -28.1351, 0.35, 122.866 )
+
+[node name="RuinsTrail28" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 0.8694, 0, -0.494109, 0, 1, 0, 0.494109, 0, 0.8694, -18.0632, 0.35, 127.738 )
+
+[node name="RuinsTrail29" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 0.8694, 0, 0.494109, 0, 1, 0, -0.494109, 0, 0.8694, 28.0633, 0.35, 127.894 )
+
+[node name="RuinsTrail31" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 0.8694, 0, 0.494109, 0, 1, 0, -0.494109, 0, 0.8694, -28.0918, 0.35, 117.128 )
+
+[node name="RuinsTrail30" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 0.8694, 0, 0.494109, 0, 1, 0, -0.494109, 0, 0.8694, 38.1454, 0.349999, 122.765 )
+
+[node name="RuinsTrail23" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 0.8694, 0, -0.494109, 0, 1, 0, 0.494109, 0, 0.8694, 38.0957, 0.35, 117.172 )
+
+[node name="RuinsTrail9" parent="ground/Level/RuinsTemple" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0.405857, 120 )
+
+[node name="Ruins2" type="Spatial" parent="ground/Level"]
+
+[node name="RuinsTrail32" parent="ground/Level/Ruins2" instance=ExtResource( 16 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -130, 6.40586, 122 )
+
+[node name="RuinsTrail33" parent="ground/Level/Ruins2" instance=ExtResource( 16 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -130, 6.40586, 132 )
+
+[node name="RuinsTrail34" parent="ground/Level/Ruins2" instance=ExtResource( 16 )]
+transform = Transform( -0.000750664, -0.000388143, 1, 2.42344e-05, 1, 0.000388162, -1, 2.4532e-05, -0.000750654, -135, 6.40586, 122 )
+
+[node name="RuinsTrail35" parent="ground/Level/Ruins2" instance=ExtResource( 16 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -135, 6.40586, 132 )
+
+[node name="RuinsEntrance" parent="ground/Level/Ruins2" instance=ExtResource( 13 )]
+transform = Transform( 0.991445, 0.130526, 0, -0.130526, 0.991445, 0, 0, 0, 1, -116, 6, 110 )
+
+[node name="RuinsExtensions8" parent="ground/Level/Ruins2" instance=ExtResource( 14 )]
+transform = Transform( -0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, -135, 6.35529, 109 )
+
+[node name="BearingWall12" parent="ground/Level/Ruins2" instance=ExtResource( 10 )]
+transform = Transform( -0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, -141, 6, 119 )
+
+[node name="BearingWall13" parent="ground/Level/Ruins2" instance=ExtResource( 10 )]
+transform = Transform( 0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, -141, 6, 132 )
+
+[node name="BearingWall14" parent="ground/Level/Ruins2" instance=ExtResource( 10 )]
+transform = Transform( -0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, -124, 6, 132 )
+
+[node name="BearingWall16" parent="ground/Level/Ruins2" instance=ExtResource( 10 )]
+transform = Transform( -0.965926, 0, 0.258819, 0.25, 0.258819, 0.933013, -0.0669873, 0.965926, -0.25, -139, 6, 141 )
+
+[node name="BearingWall17" parent="ground/Level/Ruins2" instance=ExtResource( 10 )]
+transform = Transform( -0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -127, 6, 141 )
+
+[node name="BearingWall15" parent="ground/Level/Ruins2" instance=ExtResource( 10 )]
+transform = Transform( 0.0669873, 0.965926, -0.25, -0.25, 0.258819, 0.933013, 0.965926, 0, 0.258819, -124, 6, 119 )
+
+[node name="RuinsColumn12" parent="ground/Level/Ruins2" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -142, 6.34047, 126 )
+
+[node name="RuinsColumn13" parent="ground/Level/Ruins2" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -123, 6.34047, 126 )
+
+[node name="RuinsColumn14" parent="ground/Level/Ruins2" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -133, 6.34047, 143 )
+
+[node name="Level" type="Spatial" parent="ground/Level"]
+
+[node name="Barriers" type="Spatial" parent="ground/Level/Level"]
+
+[node name="DTBarrier" parent="ground/Level/Level/Barriers" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 39.6751, 0.985, 133.769 )
+
+[node name="Village" type="Spatial" parent="ground/Level"]
+
+[node name="Fences" type="Spatial" parent="ground/Level/Village"]
+
+[node name="1" type="Spatial" parent="ground/Level/Village/Fences"]
+
+[node name="Fence" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 79, 0.5, -23 )
+
+[node name="Fence2" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 94, 0.5, -23 )
+
+[node name="Fence3" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 99, 0.5, -23 )
+
+[node name="Fence4" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 101, 0.5, -25 )
+
+[node name="Fence5" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 101, 0.5, -30 )
+
+[node name="Fence6" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 101, 0.5, -35 )
+
+[node name="Fence7" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 99, 0.5, -37 )
+
+[node name="Fence8" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 94, 0.5, -37 )
+
+[node name="Fence9" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 89, 0.5, -37 )
+
+[node name="Fence10" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 84, 0.5, -37 )
+
+[node name="Fence11" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 79, 0.5, -37 )
+
+[node name="Fence12" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 77, 0.5, -35 )
+
+[node name="Fence13" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 77, 0.5, -30 )
+
+[node name="Fence14" parent="ground/Level/Village/Fences/1" instance=ExtResource( 22 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 77, 0.5, -25 )
+
+[node name="2" type="Spatial" parent="ground/Level/Village/Fences"]
+
+[node name="Fence" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 107, 0.5, 2 )
+
+[node name="Fence2" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 107, 0.5, -3 )
+
+[node name="Fence3" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 109, 0.5, -5 )
+
+[node name="Fence4" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 114, 0.5, -5 )
+
+[node name="Fence5" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 119, 0.5, -5 )
+
+[node name="Fence6" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 121, 0.5, -3 )
+
+[node name="Fence7" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 121, 0.5, 2 )
+
+[node name="Fence8" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 121, 0.5, 7 )
+
+[node name="Fence9" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 121, 0.5, 12 )
+
+[node name="Fence10" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( 1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 119, 0.5, 14 )
+
+[node name="Fence11" parent="ground/Level/Village/Fences/2" instance=ExtResource( 22 )]
+transform = Transform( 1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 114, 0.5, 14 )
+
+[node name="3" type="Spatial" parent="ground/Level/Village/Fences"]
+
+[node name="Fence6" parent="ground/Level/Village/Fences/3" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 77, 0.5, 28 )
+
+[node name="Fence7" parent="ground/Level/Village/Fences/3" instance=ExtResource( 22 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 72, 0.5, 28 )
+
+[node name="Fence8" parent="ground/Level/Village/Fences/3" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 70, 0.5, 30 )
+
+[node name="Fence9" parent="ground/Level/Village/Fences/3" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 70, 0.5, 35 )
+
+[node name="Fence10" parent="ground/Level/Village/Fences/3" instance=ExtResource( 22 )]
+transform = Transform( -1.03316e-07, 0, -1, 0, 1, 0, 1, 0, -1.03316e-07, 72, 0.5, 37 )
+
+[node name="Fence11" parent="ground/Level/Village/Fences/3" instance=ExtResource( 22 )]
+transform = Transform( -1.03316e-07, 0, -1, 0, 1, 0, 1, 0, -1.03316e-07, 77, 0.5, 37 )
+
+[node name="Fence12" parent="ground/Level/Village/Fences/3" instance=ExtResource( 22 )]
+transform = Transform( -1.03316e-07, 0, -1, 0, 1, 0, 1, 0, -1.03316e-07, 82, 0.5, 37 )
+
+[node name="Fence13" parent="ground/Level/Village/Fences/3" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 84, 0.5, 35 )
+
+[node name="Fence" parent="ground/Level/Village/Fences" instance=ExtResource( 22 )]
+transform = Transform( -5.97109e-08, -0.866025, -0.5, 1, -4.37114e-08, -4.37114e-08, 1.59995e-08, -0.5, 0.866025, 81, 0.5, -5 )
+
+[node name="Fence2" parent="ground/Level/Village/Fences" instance=ExtResource( 22 )]
+transform = Transform( -5.97109e-08, -0.5, -0.866025, 1, -4.37114e-08, -4.37114e-08, -1.59995e-08, -0.866025, 0.5, 79, 0.5, -7 )
+
+[node name="VillageHouse1" parent="ground/Level/Village" instance=ExtResource( 19 )]
+transform = Transform( 5.96046e-08, 0, 1, 0, 1, 0, -1, 0, 5.96046e-08, 110, 0, 9 )
+
+[node name="VillageHouse2" parent="ground/Level/Village" instance=ExtResource( 19 )]
+transform = Transform( -1, 0, 1.58933e-08, 0, 1, 0, -1.58933e-08, 0, -1, 84, 0, 30 )
+
+[node name="VillageHouse3" parent="ground/Level/Village" instance=ExtResource( 19 )]
+transform = Transform( -1, 0, 1.58933e-08, 0, 1, 0, -1.58933e-08, 0, -1, 86, 0, -26 )
+
+[node name="Borehole" parent="ground/Level/Village" instance=ExtResource( 20 )]
+transform = Transform( -5.96046e-08, 0, -1, 0, 1, 0, 1, 0, -5.96046e-08, 97, 0.367195, -27 )
+
+[node name="Borehole2" parent="ground/Level/Village" instance=ExtResource( 20 )]
+transform = Transform( -0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, 119, 0.367195, 12 )
+
+[node name="Barn1" parent="ground/Level/Village" instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0.242756, 2 )
+hide_distance = 80.0
+
+[node name="Garden" type="Spatial" parent="ground/Level"]
+
+[node name="GardenShrub" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -17, 0.555343, -2 )
+
+[node name="GardenShrub3" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -17, 0.555343, 4 )
+
+[node name="GardenShrub17" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -7, 0.555343, -7 )
+
+[node name="GardenShrub18" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -7, 0.555343, 1 )
+
+[node name="GardenShrub19" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -7, 0.555343, 10 )
+
+[node name="GardenShrub20" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -7, 0.555343, 19 )
+
+[node name="GardenShrub21" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -7, 0.555343, 28 )
+
+[node name="GardenShrub22" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -27, 0.555343, 28 )
+
+[node name="GardenShrub23" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -27, 0.555343, 19 )
+
+[node name="GardenShrub24" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -27, 0.555343, 10 )
+
+[node name="GardenShrub25" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -27, 0.555343, 1 )
+
+[node name="GardenShrub26" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -27, 0.555343, -8 )
+
+[node name="GardenShrub27" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -23, 0.555343, -13 )
+
+[node name="GardenShrub28" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -14, 0.555343, -13 )
+
+[node name="GardenShrub4" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -17, 0.555343, 10 )
+
+[node name="GardenShrub5" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 1.20797e-07, 0, 1, 0, -1.50996e-07, 0, -0.8, -13, 0.555343, 19 )
+
+[node name="GardenShrub6" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 1.20797e-07, 0, 1, 0, -1.50996e-07, 0, -0.8, -22, 0.555343, 19 )
+
+[node name="GardenShrub7" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 1.20797e-07, 0, 1, 0, -1.50996e-07, 0, -0.8, -22, 0.555343, 30 )
+
+[node name="GardenShrub8" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, 1.20797e-07, 0, 1, 0, -1.50996e-07, 0, -0.8, -13, 0.555343, 30 )
+
+[node name="GardenShrub9" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( 1.94707e-07, 0, 0.8, 0, 1, 0, -1, 0, 1.55766e-07, -18, 0.555343, 33 )
+
+[node name="GardenShrub10" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( 1.94707e-07, 0, 0.8, 0, 1, 0, -1, 0, 1.55766e-07, -18, 0.555343, 27 )
+
+[node name="GardenShrub11" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( 1.94707e-07, 0, 0.8, 0, 1, 0, -1, 0, 1.55766e-07, -18, 0.555343, 22 )
+
+[node name="GardenShrub12" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( 1.94707e-07, 0, 0.8, 0, 1, 0, -1, 0, 1.55766e-07, -18, 0.555343, 16 )
+
+[node name="GardenShrub13" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( 1, 0, -1.90735e-07, 0, 1, 0, 2.38419e-07, 0, 0.8, -13, 0.555343, 6 )
+
+[node name="GardenShrub14" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( 1, 0, -1.90735e-07, 0, 1, 0, 2.38419e-07, 0, 0.8, -21, 0.555343, 6 )
+
+[node name="GardenShrub15" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( 1, 0, -1.90735e-07, 0, 1, 0, 2.38419e-07, 0, 0.8, -21, 0.555343, -5 )
+
+[node name="GardenShrub16" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( 1, 0, -1.90735e-07, 0, 1, 0, 2.38419e-07, 0, 0.8, -13, 0.555343, -5 )
+
+[node name="GardenShrub2" parent="ground/Level/Garden" instance=ExtResource( 23 )]
+transform = Transform( -2.98023e-08, 0, -1, 0, 1, 0, 1, 0, -2.98023e-08, -17, 0.555343, -8 )
+
+[node name="Shrubs" type="Spatial" parent="ground/Level"]
+script = SubResource( 2 )
+
+[node name="shrub" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4, 7, 3 )
+
+[node name="shrub2" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 7, 7, 19 )
+
+[node name="shrub3" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 20, 7, 11 )
+
+[node name="shrub21" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 16, 7, 65 )
+
+[node name="shrub70" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 7, 7, 62 )
+
+[node name="shrub71" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2, 7, 72 )
+
+[node name="shrub72" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -4, 7, 64 )
+
+[node name="shrub73" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -5, 7, 53 )
+
+[node name="shrub74" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -16, 7, 59 )
+
+[node name="shrub75" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -22, 7, 74 )
+
+[node name="shrub76" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -31, 7, 61 )
+
+[node name="shrub77" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, -31, 7, 51 )
+
+[node name="shrub78" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -5.96046e-08, 0, -1, 0, 1, 0, 1, 0, -5.96046e-08, -43, 7, 83 )
+
+[node name="shrub79" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -5.96046e-08, 0, -1, 0, 1, 0, 1, 0, -5.96046e-08, -51, 7, 70 )
+
+[node name="shrub80" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -5.96046e-08, 0, -1, 0, 1, 0, 1, 0, -5.96046e-08, -55, 7, 91 )
+
+[node name="shrub81" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -5.96046e-08, 0, -1, 0, 1, 0, 1, 0, -5.96046e-08, -65, 7, 67 )
+
+[node name="shrub82" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -5.96046e-08, 0, -1, 0, 1, 0, 1, 0, -5.96046e-08, -52, 7, 53 )
+
+[node name="shrub83" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -5.96046e-08, 0, -1, 0, 1, 0, 1, 0, -5.96046e-08, -67, 7, 97 )
+
+[node name="shrub4" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 29, 7, 4 )
+
+[node name="shrub5" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 23, 7, -4 )
+
+[node name="shrub6" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 11, 7, -6 )
+
+[node name="shrub7" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, 6, 7, -16 )
+
+[node name="shrub8" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 26, 7, -15 )
+
+[node name="shrub9" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, 34, 7, -5 )
+
+[node name="shrub10" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 31, 0.208968, 49 )
+
+[node name="shrub11" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 35, 0.208968, 49 )
+
+[node name="shrub12" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 46, 0.208968, 45 )
+
+[node name="shrub13" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, 56, 0.208968, 42 )
+
+[node name="shrub14" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, -1, 48, 0.208968, 30 )
+
+[node name="shrub15" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, 51, 0.208968, 27 )
+
+[node name="shrub16" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, -1, 73, 0.208968, 35 )
+
+[node name="shrub17" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, 73, 0.208968, 31 )
+
+[node name="shrub18" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 58, 0.208968, 62 )
+
+[node name="shrub19" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 58, 0.208968, 75 )
+
+[node name="shrub20" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 67, 0.208968, 59 )
+
+[node name="shrub22" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 73, 0.208968, 51 )
+
+[node name="shrub23" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 78, 0.208968, 45 )
+
+[node name="shrub24" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 61, 0.208968, 81 )
+
+[node name="shrub25" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, -0.258819, 64, 0.208968, 84 )
+
+[node name="shrub26" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, -0.258819, 59, 0.208968, 109 )
+
+[node name="shrub27" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, 27, 0.208968, 142 )
+
+[node name="shrub28" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, 37, 0.208968, 110 )
+
+[node name="shrub29" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 13, 0.208968, 109 )
+
+[node name="shrub30" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 2, 0.208968, 108 )
+
+[node name="shrub31" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -33, 0.208968, 113 )
+
+[node name="shrub32" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -28, 0.208968, 131 )
+
+[node name="shrub33" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, 5, 0.208968, 133 )
+
+[node name="shrub34" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, 4, 0.208968, 142 )
+
+[node name="shrub35" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -56, 0.208968, 129 )
+
+[node name="shrub36" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -55, 0.208968, 138 )
+
+[node name="shrub56" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.707107, 0, -0.707106, 0, 1, 0, 0.707106, 0, -0.707107, -85, 0.208968, 93 )
+
+[node name="shrub57" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -99, 0.208968, 103 )
+
+[node name="shrub58" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, -95, 0.208968, 77 )
+
+[node name="shrub59" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -2.98023e-08, 0, -1, 0, 1, 0, 1, 0, -2.98023e-08, -84, 0.208968, 61 )
+
+[node name="shrub60" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -2.98023e-08, 0, -1, 0, 1, 0, 1, 0, -2.98023e-08, -83, 0.208968, 35 )
+
+[node name="shrub61" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -2.98023e-08, 0, -1, 0, 1, 0, 1, 0, -2.98023e-08, -85, 0.208968, 17 )
+
+[node name="shrub62" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -2.98023e-08, 0, -1, 0, 1, 0, 1, 0, -2.98023e-08, -90, 0.208968, -5 )
+
+[node name="shrub63" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -2.98023e-08, 0, -1, 0, 1, 0, 1, 0, -2.98023e-08, -84, 0.208968, -30 )
+
+[node name="shrub64" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.965925, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965925, -58, 0.208968, -58 )
+
+[node name="shrub65" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 1, 0, -7.45058e-08, 0, 1, 0, 7.45058e-08, 0, 1, -45, 0.208968, -58 )
+
+[node name="shrub66" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -46, 0.208968, -40 )
+
+[node name="shrub67" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, 0.965925, 0, 1, 0, -0.965925, 0, -0.258819, -38, 0.208968, -22 )
+
+[node name="shrub68" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, 0.965925, 0, 1, 0, -0.965925, 0, -0.258819, -33, 0.208968, -5 )
+
+[node name="shrub84" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.965925, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965925, -25, 0.208968, -17 )
+
+[node name="shrub85" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.965925, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965925, -12, 0.208968, -17 )
+
+[node name="shrub86" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.999999, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 0.999999, -18, 0.208968, -16 )
+
+[node name="shrub87" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.999999, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 0.999999, -13, 9.20897, -38 )
+
+[node name="shrub88" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.999999, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 0.999999, -2, 9.20897, -38 )
+
+[node name="shrub89" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.999999, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 0.999999, 10, 9.20897, -37 )
+
+[node name="shrub90" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.999999, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 0.999999, -13, 9.20897, -68 )
+
+[node name="shrub93" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, 0.965925, 0, 1, 0, -0.965925, 0, -0.258819, -18, 9.20897, -43 )
+
+[node name="shrub94" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.258819, 0, 0.965925, 0, 1, 0, -0.965925, 0, 0.258819, -18, 9.20897, -57 )
+
+[node name="shrub95" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 1.63913e-07, 0, 0.999999, 0, 1, 0, -0.999999, 0, 1.63913e-07, -19, 9.20897, -50 )
+
+[node name="shrub91" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.999999, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 0.999999, -2, 9.20897, -68 )
+
+[node name="shrub92" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.999999, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 0.999999, 10, 9.20897, -67 )
+
+[node name="shrub69" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.258819, 0, 0.965925, 0, 1, 0, -0.965925, 0, -0.258819, -45, 0.208968, -0.999998 )
+
+[node name="shrub37" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -46, 0.208968, 146 )
+
+[node name="shrub38" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -87, 0.208968, 127 )
+
+[node name="shrub39" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -108, 6.20897, 101 )
+
+[node name="shrub40" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, -107, 6.20897, 117 )
+
+[node name="shrub41" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 1.19209e-07, 0, 1, 0, 1, 0, -1, 0, 1.19209e-07, -107, 6.20897, 132 )
+
+[node name="shrub42" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 1.19209e-07, 0, 1, 0, 1, 0, -1, 0, 1.19209e-07, -107, 6.20897, 147 )
+
+[node name="shrub43" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 1.19209e-07, 0, 1, 0, 1, 0, -1, 0, 1.19209e-07, -107, 6.20897, 87 )
+
+[node name="shrub44" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 1.19209e-07, 0, 1, 0, 1, 0, -1, 0, 1.19209e-07, -107, 6.20897, 67 )
+
+[node name="shrub45" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.707107, 0, 0.707106, 0, 1, 0, -0.707106, 0, 0.707107, -130, 6.20897, 108 )
+
+[node name="shrub46" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -125, 6.20897, 106 )
+
+[node name="shrub54" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -144, 6.20897, 113 )
+
+[node name="shrub55" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -142, 6.20897, 104 )
+
+[node name="shrub47" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 1.19209e-07, 0, 1, 0, 1, 0, -1, 0, 1.19209e-07, -115, 6.20897, 128 )
+
+[node name="shrub48" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.258819, 0, 0.965925, 0, 1, 0, -0.965925, 0, 0.258819, -115, 6.20897, 137 )
+
+[node name="shrub49" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -119, 6.20897, 144 )
+
+[node name="shrub50" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.965925, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965925, -141, 6.20897, 138 )
+
+[node name="shrub51" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, -146, 6.20897, 143 )
+
+[node name="shrub52" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, -146, 6.20897, 136 )
+
+[node name="shrub53" parent="ground/Level/Shrubs" instance=ExtResource( 24 )]
+transform = Transform( -0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, -147, 6.20897, 125 )
+
+[node name="NivekHome" type="Spatial" parent="ground/Level"]
+
+[node name="NivekBridge" parent="ground/Level/NivekHome" instance=ExtResource( 25 )]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2.5, -32, -0.34744, -74 )
+
+[node name="NivekHome" parent="ground/Level/NivekHome" instance=ExtResource( 26 )]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -30, 0.45, -103 )
+
+[node name="NivekBed" parent="ground/Level/NivekHome" instance=ExtResource( 27 )]
+transform = Transform( -1.5, 0, -1.31134e-07, 0, 1.5, 0, 1.31134e-07, 0, -1.5, -36, 0.4, -110 )
+
+[node name="NivekTable" parent="ground/Level/NivekHome" instance=ExtResource( 28 )]
+transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -35, 0.466802, -100 )
+
+[node name="TheStone" parent="ground/Level/NivekHome" instance=ExtResource( 29 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.4, -103 )
+
+[node name="TheStone2" parent="ground/Level/NivekHome" instance=ExtResource( 29 )]
+transform = Transform( 2.98023e-08, 0, 1, 0, 1, 0, -1, 0, 2.98023e-08, -38, 0.4, -100 )
+
+[node name="TheStone3" parent="ground/Level/NivekHome" instance=ExtResource( 29 )]
+transform = Transform( -1, 0, -1.39091e-08, 0, 1, 0, 1.39091e-08, 0, -1, -35, 0.4, -97 )
+
+[node name="NivekHomeArea" type="Area" parent="ground/Level/NivekHome"]
+script = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="ground/Level/NivekHome/NivekHomeArea"]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -31, 4, -105 )
+shape = SubResource( 14 )
+
+[node name="System" type="Spatial" parent="ground"]
+
+[node name="PlayerSpawn" type="Spatial" parent="ground/System"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 4, -102 )
+script = ExtResource( 2 )
+
+[node name="SpecNodes" type="Spatial" parent="ground/System"]
+
+[node name="RDS" type="Spatial" parent="ground/System/SpecNodes"]
+
+[node name="RDSvillageHill" type="Area" parent="ground/System/SpecNodes/RDS"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -51 )
+monitoring = false
+script = SubResource( 3 )
+new_optimization_step = 1.5
+
+[node name="CollisionShape" type="CollisionShape" parent="ground/System/SpecNodes/RDS/RDSvillageHill"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 23, 2 )
+shape = SubResource( 4 )
+
+[node name="RDSruinsSmall" type="Area" parent="ground/System/SpecNodes/RDS"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -132, 0, 128 )
+monitoring = false
+script = SubResource( 3 )
+new_optimization_step = 1.15
+
+[node name="CollisionShape" type="CollisionShape" parent="ground/System/SpecNodes/RDS/RDSruinsSmall"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 19, -24 )
+shape = SubResource( 5 )
+
+[node name="InvisibleWalls" type="Spatial" parent="ground/System/SpecNodes"]
+
+[node name="VillageHill" type="StaticBody" parent="ground/System/SpecNodes/InvisibleWalls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -51 )
+
+[node name="CS1" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/VillageHill"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 12, 2 )
+shape = SubResource( 6 )
+
+[node name="CS2" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/VillageHill"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 20 )
+shape = SubResource( 7 )
+
+[node name="CS3" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/VillageHill"]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -1, 12, -24 )
+shape = SubResource( 8 )
+
+[node name="WorldBorders" type="StaticBody" parent="ground/System/SpecNodes/InvisibleWalls"]
+
+[node name="CS1" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/WorldBorders"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 39, 149 )
+shape = SubResource( 9 )
+
+[node name="CS2" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/WorldBorders"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 146, 39, -1 )
+shape = SubResource( 9 )
+
+[node name="CS3" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/WorldBorders"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -150, 39, -1 )
+shape = SubResource( 9 )
+
+[node name="CS4" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/WorldBorders"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 39, -128 )
+shape = SubResource( 9 )
+
+[node name="DummyWalls" type="StaticBody" parent="ground/System/SpecNodes/InvisibleWalls"]
+
+[node name="CS1" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/DummyWalls"]
+transform = Transform( 0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 49, 10, 89 )
+shape = SubResource( 10 )
+
+[node name="CS2" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/DummyWalls"]
+transform = Transform( 2.08616e-07, 0, 1, 0, 1, 0, -1, 0, 2.08616e-07, 133, 10, 74 )
+shape = SubResource( 10 )
+
+[node name="Lake" type="StaticBody" parent="ground/System/SpecNodes/InvisibleWalls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 95, 0, 80 )
+
+[node name="CS1" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/Lake"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256592, 6, -3 )
+shape = SubResource( 11 )
+
+[node name="CS2" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/Lake"]
+transform = Transform( -0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, -25, 8, -17 )
+shape = SubResource( 12 )
+
+[node name="CS3" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/Lake"]
+transform = Transform( -0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, -28, 8, -4.21999 )
+shape = SubResource( 12 )
+
+[node name="River" type="StaticBody" parent="ground/System/SpecNodes/InvisibleWalls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -88 )
+
+[node name="CS1" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 14, 18 )
+shape = SubResource( 15 )
+
+[node name="CS2" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -67, 14, 14 )
+shape = SubResource( 16 )
+
+[node name="CS3" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -91, 14, 15 )
+shape = SubResource( 16 )
+
+[node name="CS4" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -19, 14, 4 )
+shape = SubResource( 16 )
+
+[node name="CS5" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 24, 14, 8 )
+shape = SubResource( 16 )
+
+[node name="CS6" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 14, 15 )
+shape = SubResource( 16 )
+
+[node name="CS7" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 85, 14, 12 )
+shape = SubResource( 16 )
+
+[node name="CS8" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 117, 14, 4 )
+shape = SubResource( 16 )
+
+[node name="CS9" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 14, 0 )
+shape = SubResource( 17 )
+
+[node name="CS10" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 14, 12 )
+shape = SubResource( 18 )
+
+[node name="CS11" type="CollisionShape" parent="ground/System/SpecNodes/InvisibleWalls/River"]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -96, 14, 29 )
+shape = SubResource( 19 )
+
+[connection signal="body_entered" from="ground/Level/NivekHome/NivekHomeArea" to="ground/Level/NivekHome/NivekHomeArea" method="_on_NivekHomeArea_body_entered"]
+[connection signal="body_exited" from="ground/Level/NivekHome/NivekHomeArea" to="ground/Level/NivekHome/NivekHomeArea" method="_on_NivekHomeArea_body_exited"]

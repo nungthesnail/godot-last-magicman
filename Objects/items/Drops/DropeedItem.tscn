@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends RigidBody
+
+export (String) var item_name
+
+"
+
+[sub_resource type="SphereShape" id=1]
+radius = 0.5
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Area
+
+var ItemName : String
+
+func Destroy():
+	get_parent().queue_free()
+
+func _process(delta):
+	ItemName = get_parent().item_name
+"
+
+[sub_resource type="SphereShape" id=2]
+
+[node name="DropeedItem" type="RigidBody"]
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+script = SubResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="ItemArea" type="Area" parent="."]
+script = SubResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="ItemArea"]
+shape = SubResource( 2 )

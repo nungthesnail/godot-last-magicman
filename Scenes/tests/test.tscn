@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Spatial
+
+
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends TestClass
+
+func _ready():
+	print(\"hello\")
+
+func _process(delta):
+	if Input.is_action_just_pressed(\"ui_debug\"):
+		printf(\"APK AAB\")
+	
+"
+
+[node name="test" type="Spatial"]
+script = SubResource( 1 )
+
+[node name="TestClass" type="Node" parent="."]
+script = SubResource( 2 )

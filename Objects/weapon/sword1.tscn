@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Models/weapon/sword1/swordEasy.glb" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area
+
+
+var par = 0
+var isAttacking = false
+var force = 10
+
+
+"
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.614667, 1.33169, 0.0965292 )
+
+[node name="weap" type="Area"]
+script = SubResource( 1 )
+
+[node name="swordEasy" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9731, 0 )
+shape = SubResource( 2 )

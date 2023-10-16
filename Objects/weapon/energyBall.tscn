@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody
+
+
+var vel = Vector3()
+var dir
+var parent
+
+var force = 100
+const speed = 20
+
+
+func _physics_process(delta):
+	var move = Vector3()
+	rotation.y = dir
+	
+	move.x = speed
+	move = move.rotated(Vector3.UP, rotation.y)
+	
+	vel.x = move.x
+	vel.y = move.y
+	vel.z = move.z
+	
+	vel = move_and_slide(vel)
+	
+
+
+func _on_Timer_timeout():
+	queue_free()
+
+
+"
+
+[sub_resource type="SphereMesh" id=2]
+radius = 0.2
+height = 0.4
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+params_cull_mode = 1
+params_grow = true
+params_grow_amount = 0.03
+albedo_color = Color( 0.537255, 1, 0.47451, 1 )
+
+[sub_resource type="SpatialMaterial" id=4]
+next_pass = SubResource( 3 )
+flags_unshaded = true
+params_cull_mode = 1
+params_grow = true
+params_grow_amount = 0.01
+albedo_color = Color( 0.752941, 1, 0.737255, 1 )
+
+[sub_resource type="SpatialMaterial" id=5]
+next_pass = SubResource( 4 )
+flags_unshaded = true
+
+[sub_resource type="SphereShape" id=6]
+radius = 0.2
+
+[sub_resource type="SphereShape" id=7]
+radius = 0.437625
+
+[node name="energyBall" type="KinematicBody"]
+script = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = SubResource( 5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 6 )
+
+[node name="energyBallA" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="energyBallA"]
+shape = SubResource( 7 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

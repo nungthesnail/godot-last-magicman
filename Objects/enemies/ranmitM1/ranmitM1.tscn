@@ -1,0 +1,398 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Models/enemies/NivekHome/DarkSpirit/SpiritBody.glb" type="PackedScene" id=1]
+[ext_resource path="res://Models/enemies/NivekHome/DarkSpirit/SpiritHand.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody
+
+
+var vel = Vector3()
+var speed = 4
+var JumpForce = 30
+var target = null
+
+onready var anim = $anim
+onready var aim = $SenceOrgans/aim
+onready var eye = $SenceOrgans/eye
+
+var hp = 101
+var IsActive = false
+var dir = \"right\"
+var IsDead = false
+
+var HasSword = false
+var sword = null
+
+var IsFire = false
+var force = 5
+
+var params = {\"ILS\":false}
+
+func Attack():
+	if aim.is_colliding():
+		if aim.get_collider().name == \"Player\":
+			aim.get_collider().injure(force)
+		
+	
+
+func injure(Force):
+	hp -= Force
+	if Force >= 20:
+		pass
+	
+
+func SetActive(value : bool):
+	IsActive = value
+
+func _ready():
+	#IsActive = true
+	#target = get_node(\"../Player\")
+	pass
+
+func _process(delta):
+	var weight : int
+	var mDir = Vector3()
+	
+	if IsActive == false or IsDead or G.cutScene: return
+	
+	if dir == \"left\": rotation.y = lerp_angle(rotation.y, 3, 0.1)
+	elif dir == \"right\": rotation.y = lerp_angle(rotation.y, 0, 0.1)
+	
+	if target and aim and eye:
+		if aim.is_colliding():
+			if aim.get_collider().name == \"Player\":
+				weight = 1
+			else:
+				weight = 2
+		elif global_transform.origin.distance_to(target.global_transform.origin) > 4:
+			weight = 3
+		else:
+			weight = 4
+		
+		if weight == 1:
+			pass
+		elif weight == 2:
+			if target.global_transform.origin.x < global_transform.origin.x and dir == \"right\":
+				dir = \"left\"
+			elif target.global_transform.origin.x > global_transform.origin.x and dir == \"left\":
+				dir = \"right\"
+			else:
+				if is_on_floor():
+					mDir.y = JumpForce
+					if dir == \"left\":
+						mDir.x = -speed
+					elif dir == \"right\":
+						mDir.x = speed
+					
+		elif weight == 3:
+			if target.global_transform.origin.x < global_transform.origin.x and dir == \"right\":
+				dir = \"left\"
+			elif target.global_transform.origin.x > global_transform.origin.x and dir == \"left\":
+				dir = \"right\"
+			
+			if dir == \"left\":
+				mDir.x = -speed
+			elif dir == \"right\":
+				mDir.x = speed
+		elif weight == 4:
+			pass #Come up with later...
+		
+		vel.x = mDir.x
+		vel.z = 0
+		
+		if mDir.y != 0:
+			vel.y = mDir.y
+		else:
+			vel.y -= G.gravity
+		
+		vel = move_and_slide(vel, Vector3.UP)
+		
+		#animation part
+		weight = 0
+		if aim.is_colliding(): #if player is near
+			weight = 1
+		elif not vel.x in range(-1,1): #if I move
+			weight = 2
+		elif vel.x in range(-1,1):
+			weight = 3
+		elif not is_on_floor(): #if I hasn't floor under me
+			weight = 4
+		else:
+			weight = 5 #Come up with later...
+		
+		if anim:
+			if not anim.is_playing() or anim.current_animation == \"idle\":
+				if weight == 1:
+					anim.play(\"fire1\",-1,G.rd.randf_range(0.9,1.3))
+				elif weight == 2:
+					if anim.lastAnimation != \"walk\" or params [\"ILS\"] == true:
+						anim.play(\"walk\")
+						params [\"ILS\"] = false
+				elif weight == 3:
+					if anim.lastAnimation == \"walk\" and params [\"ILS\"] == false:
+						anim.play_backwards(\"walk\")
+						params [\"ILS\"] = true
+					else:
+						anim.play(\"idle\")
+				elif weight == 4:
+					if anim.lastAnimation != \"fall\":
+						anim.play(\"fall\")
+				else:
+					anim.play(\"idle\")
+					
+				
+			
+		
+	
+	if target:
+		global_transform.origin.z = target.global_transform.origin.z
+	
+	if hp <= 0:
+		IsDead = true
+	if IsDead:
+		queue_free()
+	
+
+func _on_enemyArea_area_entered(area):
+	if area.name == \"weap\":
+		if area.isAttacking and area.par == 0:
+			injure(area.force)
+		
+	
+
+
+
+"
+
+[sub_resource type="SphereShape" id=2]
+radius = 1.1
+
+[sub_resource type="SphereShape" id=3]
+radius = 1.8
+
+[sub_resource type="Animation" id=4]
+resource_name = "fall"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("ranmit1:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 10 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ranmit1/ranmitHand:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -90, 0 ), Vector3( 100, -90, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ranmit1/ranmitHand2:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -90, 0 ), Vector3( 100, -90, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+tracks/0/type = "value"
+tracks/0/path = NodePath("ranmit1:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4, 0.5, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, -35, 0 ), Vector3( 0, -35, 0 ), Vector3( 0, 50, 0 ), Vector3( 0, 50, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ranmit1/ranmitHand:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4, 0.5, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -90, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, -90, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ranmit1/ranmitHand2:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4, 0.5, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -90, 0 ), Vector3( 0, -90, 0 ), Vector3( 0, -90, 0 ), Vector3( 0, -140, 0 ), Vector3( 0, -140, 0 ), Vector3( 0, -90, 0 ) ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "Attack"
+} ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ranmit1:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 3 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ranmit1/ranmitHand:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -90, 0 ), Vector3( 0, -85, 0 ), Vector3( 0, -90, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ranmit1/ranmitHand2:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -90, 0 ), Vector3( 0, -95, 0 ), Vector3( 0, -90, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "walk"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("ranmit1:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, -40 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ranmit1/ranmitHand:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -90, 0 ), Vector3( 40, -90, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ranmit1/ranmitHand2:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -90, 0 ), Vector3( 40, -90, 0 ) ]
+}
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends AnimationPlayer
+
+
+var lastAnimation : String
+
+func _process(delta):
+	if current_animation != \"\":
+		lastAnimation = current_animation
+
+"
+
+[node name="ranmit1" type="KinematicBody"]
+script = SubResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0172648, 1.04751, 0 )
+shape = SubResource( 2 )
+
+[node name="ranmit1" parent="." instance=ExtResource( 1 )]
+
+[node name="ranmitHand" parent="ranmit1" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.9407e-08, 1, -1 )
+
+[node name="ranmitHand2" parent="ranmit1" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1, 1 )
+
+[node name="enemyArea" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="enemyArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.284842, 0.843737, 0 )
+shape = SubResource( 3 )
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/fall = SubResource( 4 )
+anims/fire1 = SubResource( 5 )
+anims/idle = SubResource( 6 )
+anims/walk = SubResource( 7 )
+script = SubResource( 8 )
+
+[node name="SenceOrgans" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.846776, 0 )
+
+[node name="aim" type="RayCast" parent="SenceOrgans"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0, 0 )
+enabled = true
+cast_to = Vector3( 1.5, 0, 0 )
+
+[node name="eye" type="RayCast" parent="SenceOrgans"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0, 0 )
+enabled = true
+cast_to = Vector3( 10, 0, 0 )
+
+[connection signal="area_entered" from="enemyArea" to="." method="_on_enemyArea_area_entered"]

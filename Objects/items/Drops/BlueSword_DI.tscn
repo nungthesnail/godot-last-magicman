@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Models/weapon/sword1/swordEasy.glb" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends RigidBody
+
+export (String) var item_name
+export (String) var system_name
+
+"
+
+[sub_resource type="SphereShape" id=2]
+radius = 0.5
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Area
+
+var ItemName : String
+var RealName : String
+
+func Destroy():
+	get_parent().queue_free()
+
+func _process(delta):
+	ItemName = get_parent().item_name
+	RealName = get_parent().system_name
+
+
+
+"
+
+[sub_resource type="SphereShape" id=4]
+radius = 1.5
+
+[node name="DroppedItem" type="RigidBody"]
+mass = 10.0
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+script = SubResource( 1 )
+item_name = "Blue Sword"
+system_name = "BlueSword"
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 2 )
+
+[node name="ItemArea" type="Area" parent="."]
+script = SubResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="ItemArea"]
+shape = SubResource( 4 )
+
+[node name="swordEasy" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.168524, -0.107701, 0, 0.107701, 0.168524, 0, 0, 0, 0.2, 0.344118, -0.491974, 0 )
+
+[node name="Light" type="OmniLight" parent="."]
+light_color = Color( 0.603922, 0.945098, 1, 1 )
+light_energy = 16.0
+shadow_enabled = true
+shadow_color = Color( 0.356863, 1, 1, 1 )
+omni_range = 2.0

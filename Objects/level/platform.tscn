@@ -1,0 +1,75 @@
+[gd_scene load_steps=6 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody
+
+
+export (String, \"x\",\"y\",\"z\") var moving_axis
+export (float) var speed
+export (float) var path_length
+export (bool) var is_active
+
+var _vel : Vector3 = Vector3()
+var _dir : int = 1
+
+var start_position : Vector3
+
+func _ready():
+	start_position = global_transform.origin
+	if path_length < 0:
+		path_length = -path_length
+	
+
+func _physics_process(delta):
+	if not is_active: return
+	
+	var mDir = Vector3()
+	
+	if moving_axis == \"x\":
+		if( global_transform.origin.x > start_position.x + path_length 
+		or global_transform.origin.x < start_position.x - path_length):
+			_dir *= -1
+		mDir.x = _dir * speed
+	elif moving_axis == \"y\":
+		if( global_transform.origin.y > start_position.y + path_length 
+		or global_transform.origin.y < start_position.y - path_length):
+			_dir *= -1
+		mDir.y = _dir * speed
+	elif moving_axis == \"z\":
+		if( global_transform.origin.z > start_position.z + path_length 
+		or global_transform.origin.z < start_position.z - path_length):
+			_dir *= -1
+		mDir.z = _dir * speed
+	
+	_vel = mDir
+	_vel = move_and_slide(_vel, Vector3.UP)
+"
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 1.5, 0.25, 1 )
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 3, 0.5, 2 )
+
+[sub_resource type="SpatialMaterial" id=4]
+params_cull_mode = 1
+params_billboard_keep_scale = true
+params_grow = true
+params_grow_amount = 0.05
+albedo_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=5]
+next_pass = SubResource( 4 )
+params_diffuse_mode = 4
+params_specular_mode = 3
+albedo_color = Color( 0, 0.811765, 1, 1 )
+
+[node name="platform" type="KinematicBody"]
+script = SubResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 3 )
+material/0 = SubResource( 5 )

@@ -1,0 +1,514 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Models/enemies/ranmit1/ranmit1.glb" type="PackedScene" id=1]
+[ext_resource path="res://Models/enemies/ranmit1/ranmitHand.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Models/weapon/hammer/hammer.tscn" type="PackedScene" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody
+
+
+export (NodePath) var navigation_node
+
+var path = []
+var nodeId = 0
+
+var Nav
+
+var vel = Vector3()
+
+var speed = 5
+var hp = 70
+
+var agr = false
+var attack = false
+var canAttack = true
+var fire = false
+var state = \"calm\"
+
+var target = null
+
+onready var anim = $anim
+onready var aim = $senseOrgans/aim
+onready var timer = $senseOrgans/Timer
+onready var timerAttack = $senseOrgans/TimerAttack
+onready var weapon = $ranmit1/ranmitHandR/weap
+
+func onDeath():
+	var hOrb = load(\"res://Objects/items/Drops/Orbs/OrbHealth.tscn\")
+	var sOrb = load(\"res://Objects/items/Drops/Orbs/OrbScore.tscn\")
+	
+	for h in range(G.rd.randi_range(1,3)):
+		var H = hOrb.instance()
+		H.global_transform.origin = Vector3(
+			G.rd.randf_range(global_transform.origin.x - 3, global_transform.origin.x + 3),
+			G.rd.randf_range(global_transform.origin.y + 0.2, global_transform.origin.y + 3),
+			G.rd.randf_range(global_transform.origin.z - 3, global_transform.origin.z + 3))
+		get_tree().current_scene.add_child(H)
+	
+	for s in range(G.rd.randi_range(1,5)):
+		var S = sOrb.instance()
+		S.global_transform.origin = Vector3(
+			G.rd.randf_range(global_transform.origin.x - 3, global_transform.origin.x + 3),
+			G.rd.randf_range(global_transform.origin.y + 0.2, global_transform.origin.y + 3),
+			G.rd.randf_range(global_transform.origin.z - 3, global_transform.origin.z + 3))
+		get_tree().current_scene.add_child(S)
+	
+
+func _ready():
+	Nav = get_node(navigation_node)
+	weapon.par = 1
+	
+
+func _physics_process(delta):
+	if state == \"death\": return
+	
+	var dir = Vector3()
+	
+	if state == \"chase\" and attack == false:
+		if nodeId < path.size():
+			
+			rotation.y = lerp_angle(rotation.y,Math.getSlope(global_transform.origin, path [nodeId]),0.1)
+			
+			dir.z = -speed
+			
+			if global_transform.origin.distance_to(path [nodeId]) < 1:
+				nodeId += 1
+			
+			
+		
+	elif state == \"calm\":
+		if not anim.is_playing():
+			anim.play(\"calm\")
+		
+	
+	dir = dir.rotated(Vector3.UP,rotation.y)
+	
+	vel.x = dir.x
+	vel.y -= G.gravity
+	vel.z = dir.z
+	
+	vel = move_and_slide(vel, Vector3(0,1,0))
+	
+	
+
+func _process(delta):
+	rotation.x = 0
+	rotation.z = 0
+	
+	if hp <= 0:
+		state = \"death\"
+		if anim.current_animation != \"death\":
+			if anim.lastAnim == \"death\":
+				queue_free()
+			else:
+				anim.play(\"death\")
+			
+			return;
+		
+	if state == \"death\":
+		return
+	
+	if vel.x != 0 or vel.z != 0:
+		if anim.lastAnim != \"run\":
+			anim.play(\"run\")
+		
+	elif not is_on_floor():
+		if anim.lastAnim != \"falling\":
+			anim.play(\"falling\")
+		
+	elif vel == Vector3(0,0,0) and agr == false:
+		anim.play(\"calm\")
+	
+	
+	if target and agr:
+		if global_transform.origin.distance_to(target.global_transform.origin) < 3.5:
+			attack = true
+		else:
+			attack = false
+		
+	
+	if state == \"calm\":
+		aim.rotation_degrees.y += (360*2) * delta
+		
+		if aim.is_colliding():
+			if aim.get_collider().name == \"Player\":
+				target = aim.get_collider()
+				agr = true
+				aim.rotation.y = 0
+				
+			
+		
+	
+	if agr == true and target:
+		state = \"chase\"
+		if timer.is_stopped():
+			timer.start()
+		
+	
+	if attack:
+		if target: look_at(target.global_transform.origin, Vector3(0,1,0))
+		
+		if canAttack and weapon:
+			fire = true
+			canAttack = false
+		else:
+			if timerAttack.is_stopped():
+				timerAttack.start()
+			
+		
+		if fire == true:
+			if not anim.is_playing():
+				anim.play(\"attack\")
+			elif not anim.is_playing() and anim.lastAnim == \"attack\":
+				fire = false
+			
+			if anim.current_animation == \"attack\":
+				weapon.isAttacking = true
+			else:
+				weapon.isAttacking = false
+			
+		
+	
+
+func moveTo(pos: Vector3):
+	path = Nav.get_simple_path(global_transform.origin, pos)
+	nodeId = 0
+	
+
+func _on_Timer_timeout():
+	if state == \"chase\":
+		moveTo(target.global_transform.origin)
+	
+
+func _on_TimerAttack_timeout():
+	canAttack = true
+	timerAttack.stop()
+
+func _on_enemyArea_area_entered(area):
+	if area.name == \"weap\":
+		if area.par == 0:
+			hp -= area.force
+	elif area.name == \"energyBallA\":
+		hp -= area.get_parent().force
+	
+
+
+"
+
+[sub_resource type="SphereShape" id=2]
+radius = 1.1
+
+[sub_resource type="Animation" id=3]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ranmit1:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 90, 0 ), Vector3( -2.02766e-06, 79.44, 12.677 ), Vector3( -2.02766e-06, 79.44, 12.677 ), Vector3( 0, 90, 0 ), Vector3( 0, 90, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ranmit1/ranmitHandL:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -33.358, -90, 6.14527e-06 ), Vector3( -10.8764, 51.6764, -8.36375 ), Vector3( -10.8764, 51.6764, -8.36375 ), Vector3( -33.358, -90, 6.14527e-06 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ranmit1/ranmitHandR:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -33.358, -90, 6.14527e-06 ), Vector3( 71.744, -90, 2.71956e-05 ), Vector3( 71.744, -90, 2.71956e-05 ), Vector3( -33.358, -90, 6.14527e-06 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("ranmit1/ranmitHandL:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -33.358, -90, 6.14527e-06 ), Vector3( -33.358, -86.041, 6.14527e-06 ), Vector3( -33.358, -90, 6.14527e-06 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ranmit1/ranmitHandR:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -33.358, -90, 6.14527e-06 ), Vector3( -33.358, -94.268, 6.14527e-06 ), Vector3( -33.358, -90, 6.14527e-06 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ranmit1:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 90, 0 ), Vector3( 0, 90, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ranmit1/ranmitHandL:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -33.358, -90, 6.14527e-06 ), Vector3( 3.27277, -3.16267, -60.6721 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ranmit1/ranmitHandR:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -33.358, -90, 6.14527e-06 ), Vector3( 15.886, -180, 66.831 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ranmit1:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 90, 0 ), Vector3( 0, 90, 60 ) ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "onDeath"
+} ]
+}
+
+[sub_resource type="Animation" id=6]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("ranmit1:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 90, 0 ), Vector3( 0, 90, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ranmit1/ranmitHandR:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 90, 90, -180 ), Vector3( 95, 0, -180 ), Vector3( 90, 90, -180 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ranmit1/ranmitHandL:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 90, -90, 0 ), Vector3( 83.1796, -3.32786, 86.6956 ), Vector3( 90, -90, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("ranmit1:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 90, 0 ), Vector3( 0, 90, -24.912 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ranmit1/ranmitHandL:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -33.358, -90, 6.14527e-06 ), Vector3( -120, -90, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ranmit1/ranmitHandR:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -33.358, -90, 6.14527e-06 ), Vector3( -120, -90, 0 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("ranmit1:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 90, -24.912 ), Vector3( 0, 90, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ranmit1/ranmitHandL:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -120, -90, 0 ), Vector3( -33.358, -90, 6.14527e-06 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ranmit1/ranmitHandR:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -120, -90, 0 ), Vector3( -33.358, -90, 6.14527e-06 ) ]
+}
+
+[sub_resource type="GDScript" id=9]
+script/source = "extends AnimationPlayer
+
+
+var lastAnim : String
+
+
+func _process(delta):
+	if current_animation != \"\":
+		lastAnim = current_animation
+	
+
+"
+
+[sub_resource type="SphereShape" id=10]
+radius = 1.5
+
+[node name="ranmit" type="KinematicBody"]
+script = SubResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.769551, 0 )
+shape = SubResource( 2 )
+
+[node name="senseOrgans" type="Spatial" parent="."]
+
+[node name="aim" type="RayCast" parent="senseOrgans"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.863578, 0 )
+enabled = true
+cast_to = Vector3( 10, 0, 0 )
+
+[node name="Timer" type="Timer" parent="senseOrgans"]
+
+[node name="TimerAttack" type="Timer" parent="senseOrgans"]
+
+[node name="ranmit1" parent="." instance=ExtResource( 1 )]
+transform = Transform( -2.18557e-08, 3.78552e-08, 1, 0.866025, 0.5, 0, -0.5, 0.866025, -4.37114e-08, 0, 0, 0 )
+
+[node name="ranmitHandL" parent="ranmit1" instance=ExtResource( 2 )]
+transform = Transform( 0.491807, 0.868961, -0.055081, -0.870409, 0.489009, -0.0570895, -0.0226735, 0.0760201, 0.996848, 0.0267024, 0.992916, -0.995391 )
+
+[node name="ranmitHandR" parent="ranmit1" instance=ExtResource( 2 )]
+transform = Transform( -0.393444, 0.919349, 8.40841e-08, 0.884237, 0.378418, -0.273725, -0.251648, -0.107695, -0.96181, 0.0267022, 0.992918, 1.01754 )
+
+[node name="weap" parent="ranmit1/ranmitHandR" instance=ExtResource( 3 )]
+transform = Transform( -3.34333e-08, -1.07167e-07, 0.6, -0.563816, 0.239414, 0, -0.205212, -0.657785, -9.77524e-08, -9.53674e-07, 0.0794456, -0.726972 )
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/attack = SubResource( 3 )
+anims/calm = SubResource( 4 )
+anims/death = SubResource( 5 )
+anims/falling = SubResource( 6 )
+anims/run = SubResource( 7 )
+anims/stop = SubResource( 8 )
+script = SubResource( 9 )
+
+[node name="enemyArea" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.755202, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="enemyArea"]
+shape = SubResource( 10 )
+
+[connection signal="timeout" from="senseOrgans/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="senseOrgans/TimerAttack" to="." method="_on_TimerAttack_timeout"]
+[connection signal="area_entered" from="enemyArea" to="." method="_on_enemyArea_area_entered"]

@@ -1,0 +1,207 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Resources/UI/CurrentWeapon.png" type="Texture" id=2]
+[ext_resource path="res://Resources/UI/WeaponSlot.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+onready var Timers : Dictionary = {
+	\"msTimer\": $Timers/msTimer
+}
+
+func TakeMessage(Text : String):
+	if Text == $msLabel.text: return
+	Timers [\"msTimer\"].wait_time = (len(Text) * 0.2)
+	$msLabel.text = Text
+	Timers [\"msTimer\"].start()
+
+func _ready():
+	G.Gui [\"Gui\"] = self
+	G.Gui [\"csInterface\"] = $cutScene
+	G.Gui [\"csLabel\"] = $cutScene/csLabel
+	G.Gui [\"msLabel\"] = $msLabel
+	
+
+func _process(delta):
+	if G.player:
+		$score.text = \"SCORE: \" + str(G.player.score)
+		$hp.text = \"HP: \" + str(G.player.hp)
+	
+
+func _on_msTimer_timeout():
+	$msLabel.text = \"\"
+
+
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Control
+
+
+var a : int
+var slots = []
+
+func _ready():
+	slots = [$slot0,$slot1,$slot2,$slot3]
+
+func _process(delta):
+	match Game.CurWeap:
+		\"BlueSword\": $curSlot/img.texture = load(\"res://Resources/UI/weapons/BlueSword.png\")
+		\"Fireball\": $curSlot/img.texture = load(\"res://Resources/UI/weapons/EnergyBall.png\")
+		\"\": $curSlot/img.texture = null
+	
+	if Input.is_action_pressed(\"ui_select\"):
+		for o in get_children():
+			o.visible = true
+		
+		a = int(Math.getSlope2d(get_viewport().get_mouse_position(), rect_position) / -0.3)
+		if a > 4: a = 4
+		elif a < 1: a = 1
+		
+		$slot0.self_modulate = Color(1,0.8,0,1) if a == 1 else Color(1,1,1,1)
+		$slot1.self_modulate = Color(1,0.8,0,1) if a == 2 else Color(1,1,1,1)
+		$slot2.self_modulate = Color(1,0.8,0,1) if a == 3 else Color(1,1,1,1)
+		$slot3.self_modulate = Color(1,0.8,0,1) if a == 4 else Color(1,1,1,1)
+		
+		for i in len(slots):
+			if Game.inventory [i] != \"\":
+				match Game.inventory [i]:
+					\"BlueSword\": slots [i].get_node(\"img\").texture = load(\"res://Resources/UI/weapons/BlueSword.png\")
+					\"Fireball\": slots [i].get_node(\"img\").texture = load(\"res://Resources/UI/weapons/EnergyBall.png\")
+				
+			
+		
+	else:
+		for o in get_children():
+			if o.name != \"curSlot\": o.visible = false
+		
+	
+	if Input.is_action_just_released(\"ui_select\"):
+		G.player.resetWeapon(a - 1)
+		Game.setCurWeap(a - 1)
+	
+	
+
+
+
+
+"
+
+[node name="GUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="score" type="Label" parent="."]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 251.0
+margin_bottom = 48.0
+text = "SCORE: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hp" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 32.0
+margin_right = 56.0
+margin_bottom = 46.0
+text = "HP: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="weapon" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0.588235 )
+anchor_left = 1.0
+anchor_right = 1.0
+script = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="curSlot" type="Sprite" parent="weapon"]
+position = Vector2( -49, 50 )
+texture = ExtResource( 2 )
+
+[node name="img" type="Sprite" parent="weapon/curSlot"]
+
+[node name="slot3" type="Sprite" parent="weapon"]
+position = Vector2( -112.664, 28.8864 )
+rotation = 1.5708
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 3 )
+
+[node name="img" type="Sprite" parent="weapon/slot3"]
+scale = Vector2( 0.5, 0.5 )
+
+[node name="slot2" type="Sprite" parent="weapon"]
+position = Vector2( -101.465, 72.7533 )
+rotation = 1.0472
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 3 )
+
+[node name="img" type="Sprite" parent="weapon/slot2"]
+scale = Vector2( 0.5, 0.5 )
+
+[node name="slot1" type="Sprite" parent="weapon"]
+position = Vector2( -71, 105 )
+rotation = 0.584685
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 3 )
+
+[node name="img" type="Sprite" parent="weapon/slot1"]
+scale = Vector2( 0.5, 0.5 )
+
+[node name="slot0" type="Sprite" parent="weapon"]
+position = Vector2( -26.7338, 118.012 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 3 )
+
+[node name="img" type="Sprite" parent="weapon/slot0"]
+scale = Vector2( 0.5, 0.5 )
+
+[node name="cutScene" type="Control" parent="."]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="csLabel" type="Label" parent="cutScene"]
+margin_left = 120.0
+margin_top = 440.0
+margin_right = 901.0
+margin_bottom = 504.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="msLabel" type="Label" parent="."]
+margin_left = 15.0
+margin_top = 547.0
+margin_right = 700.0
+margin_bottom = 585.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timers" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="msTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[connection signal="timeout" from="Timers/msTimer" to="." method="_on_msTimer_timeout"]

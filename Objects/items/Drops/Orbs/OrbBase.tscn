@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=2]
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends RigidBody
+
+func _ready():
+	scale *= G.rd.randf_range(0.5,1.5)
+
+func _process(delta):
+	#if Input.is_action_just_pressed(\"ui_debug\"):
+	#	print(5 * (1 / global_transform.origin.distance_to(G.player.global_transform.origin)))
+	
+	if not G.player: return
+	
+	if global_transform.origin.distance_to(G.player.global_transform.origin) < 10:
+		var dis = global_transform.origin.distance_to(G.player.global_transform.origin)
+		var spd = (5 * (0.01 / dis))
+		global_transform.origin.x = lerp(global_transform.origin.x,G.player.global_transform.origin.x,spd)
+		global_transform.origin.z = lerp(global_transform.origin.z,G.player.global_transform.origin.z,spd)
+	
+
+func _on_OrbArea_body_entered(body):
+	if not G.player: return
+	if body == G.player:
+		queue_free()
+	
+"
+
+[sub_resource type="SphereMesh" id=8]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+params_cull_mode = 1
+params_grow = true
+params_grow_amount = 0.1
+albedo_color = Color( 0.501961, 0.501961, 0.501961, 1 )
+
+[sub_resource type="SpatialMaterial" id=4]
+next_pass = SubResource( 3 )
+flags_unshaded = true
+
+[sub_resource type="SphereShape" id=5]
+radius = 0.25
+
+[sub_resource type="SphereShape" id=6]
+radius = 0.499951
+
+[node name="Orb" type="RigidBody"]
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+script = SubResource( 7 )
+
+[node name="Mesh" type="MeshInstance" parent="."]
+mesh = SubResource( 8 )
+material/0 = SubResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 5 )
+
+[node name="OrbArea" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="OrbArea"]
+shape = SubResource( 6 )

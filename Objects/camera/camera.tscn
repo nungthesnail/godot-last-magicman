@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Spatial
+
+export (NodePath) var target
+export (NodePath) var look_at_node
+export (int) var mode
+
+func _ready():
+	G.cam = self
+
+
+func _process(delta):
+	if !get_node_or_null(target): return
+	if mode == -1: return
+	
+	if get_node_or_null(target) and mode != -1:
+		global_transform.origin.x = lerp(global_transform.origin.x,get_node(target).global_transform.origin.x, 0.1)
+		global_transform.origin.y = lerp(global_transform.origin.y,get_node(target).global_transform.origin.y+0.2, 0.1)
+		global_transform.origin.z = lerp(global_transform.origin.z,get_node(target).global_transform.origin.z, 0.1)
+		
+		if G.mode == 0:
+			rotation.y = 0
+		elif G.mode == 1:
+			rotation.y = G.MovingDir
+		
+	
+	$Ray.cast_to = $camera.translation
+	
+
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Camera
+
+#export (NodePath) var target
+#export (NodePath) var look_at_node
+#export (int) var mode
+
+func _ready():
+	G.TrueCam = self
+
+func _process(delta):
+	#if !get_node_or_null(target): return
+	if get_parent().mode == -1: return
+	
+	if G.mode == 0:
+		rotation_degrees = lerp(rotation_degrees, Vector3(-61, 90, 0), 0.1)
+		
+		translation.x = 10
+		translation.z = 0
+		translation.y = 20
+		
+	elif G.mode == 1:
+		rotation_degrees = lerp(rotation_degrees, Vector3(0, 0, 0), 0.1)
+		
+		translation.x = 0
+		translation.z = 10
+		translation.y = 3
+		
+	elif G.mode == 2:
+		translation.x = -3
+		translation.y = 0.5
+		translation.z = -3
+		#global_transform.origin = global_transform.origin.rotated(Vector3.UP, get_node(target).rotation.y)
+		#if get_node_or_null(look_at_node):
+		#	look_at(get_node(look_at_node).global_transform.origin, Vector3.UP)
+		#else:
+		#	rotation_degrees = lerp(rotation_degrees, Vector3(-61, 90, 0), 0.1)
+	
+	
+
+"
+
+[node name="camera" type="Spatial"]
+script = SubResource( 1 )
+
+[node name="camera" type="Camera" parent="."]
+script = SubResource( 2 )
+
+[node name="Ray" type="RayCast" parent="."]
+enabled = true
+cast_to = Vector3( 0, 0, 2 )
